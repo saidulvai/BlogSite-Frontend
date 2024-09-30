@@ -2,7 +2,7 @@ const displayProfile = () => {
 
     const user_id = localStorage.getItem("user_id")
     const parent = document.getElementById("profile-info")
-    fetch(`http://127.0.0.1:8000/register/list/${user_id}/`)
+    fetch(`https://my-book-iopa.onrender.com/list/${user_id}/`)
     .then((res)=> res.json())
     .then((users)=> {
         console.log(users);
@@ -18,3 +18,21 @@ const displayProfile = () => {
     })
 }
 displayProfile();
+
+const displayFavourites = () => {
+
+    const user_id = localStorage.getItem("user_id")
+    const parent = document.getElementById("profile-info")
+    fetch(`https://my-book-iopa.onrender.com/favorites/`)
+    .then((res)=> res.json())
+    .then((data)=> {
+        console.log(data);
+        data.forEach(favorite => {
+            const li = document.createElement('li');
+            li.textContent = `Favorite: ${favorite.blog.title}`;
+            favoritesList.appendChild(li);
+        });
+    })
+}
+displayFavourites();
+

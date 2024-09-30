@@ -1,13 +1,13 @@
 const loadCatgory = () => {
     const parent = document.getElementById("category_option")
-    fetch("http://127.0.0.1:8000/categories/")
+    fetch("https://my-book-iopa.onrender.com/blog/categories/")
     .then((res)=> res.json())
     .then((data)=> {
         displayCategory(data);
         data.forEach(element => {
             console.log(element)
             const option = document.createElement("option")
-            option.value = element.name 
+            option.value = element.id
             option.innerText = element.name
             parent.appendChild(option)
         });
@@ -18,7 +18,7 @@ loadCatgory();
 
 const displayCategory = (categories) => {
     const parent = document.getElementById("categories")
-    fetch("http://127.0.0.1:8000/categories/")
+    fetch("https://my-book-iopa.onrender.com/blog/categories/")
     .then((res)=> res.json())
     .then((data)=> {
         data.forEach(element => {
@@ -43,10 +43,10 @@ const handleAddArticle = async (event) => {
     const articleData = {
         title: formData.get('title'),
         body: formData.get('body'),
-        categories: formData.get('categories'),
+        categories: parseInt(formData.get('categories')), 
     };
     console.log(articleData);
-    fetch("http://127.0.0.1:8000/blogs/", {
+    fetch("https://my-book-iopa.onrender.com/blog/load_blogs/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -56,6 +56,7 @@ const handleAddArticle = async (event) => {
     })
     .then((res) => res.json())
     .then((data) => {
+        console.log(data);
         alert("Blog added successfully!");
         window.location.href = "./index.html";
     })
@@ -64,7 +65,7 @@ const handleAddArticle = async (event) => {
 
 
 const loadArticles = (value) => {
-    fetch(`http://127.0.0.1:8000/categories/${value}/`)
+    fetch(`https://my-book-iopa.onrender.com/blog/categories/${value}/`)
     .then((res)=>res.json())
     .then((data)=> {
         document.getElementById("category-title").innerText = data.name;
@@ -73,7 +74,7 @@ const loadArticles = (value) => {
 
     document.getElementById("nodata").innerText = ''
     document.getElementById("articles-sector").innerHTML = ''
-    fetch(`http://127.0.0.1:8000/blogs/?categories_id=${value}`)
+    fetch(`https://my-book-iopa.onrender.com/blog/load_blogs/?categories_id=${value}`)
     .then((res) => res.json())
     .then((data) => {
 

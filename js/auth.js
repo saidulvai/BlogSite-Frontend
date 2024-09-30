@@ -9,7 +9,7 @@ const handleLogin = (event) => {
         password: formData.get("password"),
     };
     console.log(loginData);
-    fetch("http://127.0.0.1:8000/register/login/", {
+    fetch("https://my-book-iopa.onrender.com/login/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -51,7 +51,7 @@ const handleRegister = (event) => {
         // image: formData.get("profile_image") 
     };
     console.log(registerData)
-    fetch("http://127.0.0.1:8000/register/", {
+    fetch("https://my-book-iopa.onrender.com/register/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -79,7 +79,7 @@ const handleRegister = (event) => {
 const handleLogout = () => {
     const token = localStorage.getItem('token')
 
-    fetch("http://127.0.0.1:8000/register/logout/", {
+    fetch("https://my-book-iopa.onrender.com/logout/", {
         method : "POST",
         headers: {
             "Content-Type": "application/json",

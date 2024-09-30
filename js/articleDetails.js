@@ -1,7 +1,7 @@
 const getParams = () => {
     const param = new URLSearchParams(window.location.search).get("articleId");
     console.log(param)
-    fetch(`http://127.0.0.1:8000/blogs/${param}`)
+    fetch(`https://my-book-iopa.onrender.com/blog/load_blogs/${param}`)
     .then((res)=> res.json())
     .then((data)=> displayArticleDetails(data))
 
@@ -25,7 +25,7 @@ const displayArticleDetails = (article) => {
     });
     const user_id = localStorage.getItem("user_id");
 
-    fetch(`http://127.0.0.1:8000/categories/${article.categories}/`)
+    fetch(`https://my-book-iopa.onrender.com/blog/categories/${article.categories}/`)
         .then((res) => res.json())
         .then((category) => {
             console.log(article);
@@ -60,15 +60,15 @@ const displayArticleDetails = (article) => {
             ratingSection.style.display = 'none';
 
             if (user_id) {
-                fetch(`http://127.0.0.1:8000/register/list/${user_id}/`)
+                fetch(`https://my-book-iopa.onrender.com/list/${user_id}/`)
                     .then((res) => res.json())
                     .then((user) => {
                         const isAuthor = user.profile.user_type === "Author";
                         const isAdmin = user.profile.user_type === "Admin";
                         const isReaders = user.profile.user_type === "Reader";
-                        const isNon = user.profile.user_type === "";
+                        const isNon = user.profile === null;
 
-                        if (isAuthor || isAdmin) {
+                        if (isAuthor || isAdmin || isNon) {
                             parent.innerHTML += `
                                 <div class="p-2 border border-dark bg-dark-subtle rounded">
                                     <button class="btn px-5 mx-2 btn-outline-dark" id="edit-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Edit</button>
@@ -77,7 +77,7 @@ const displayArticleDetails = (article) => {
                             `;
                             ratingSection.style.display = 'none';
                         } else{
-                            fetch("http://127.0.0.1:8000/rating/")
+                            fetch("https://my-book-iopa.onrender.com/blog/rating/")
                             .then((res)=>res.json())
                             .then((ratingList)=>{
                                 console.log(ratingList);
@@ -120,7 +120,7 @@ const updateArticle = async (event) => {
 
 
     // Send the update request
-    fetch(`http://127.0.0.1:8000/blogs/${param}/`, {
+    fetch(`https://my-book-iopa.onrender.com/blog/load_blogs/${param}/`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -152,13 +152,13 @@ const FavouriteArticle = async (event) => {
 
 
     // Send the update request
-    fetch("http://127.0.0.1:8000/favorites/", {
+    fetch("https://my-book-iopa.onrender.com/favorites/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             Authorization: `Token ${token}`,
         },
-        body: JSON.stringify(articleData)
+        body: JSON.stringify('')
     })
     .then((res) => res.json())
     .then((data) => {
@@ -168,12 +168,11 @@ const FavouriteArticle = async (event) => {
     .catch(error => console.error('Error:', error));
 };
 
-
 const deleteArticle = () =>  {
     const param = new URLSearchParams(window.location.search).get("articleId");
     console.log(param);
     const token = localStorage.getItem("token")
-    fetch(`http://127.0.0.1:8000/blogs/${param}/`, {
+    fetch(`https://my-book-iopa.onrender.com/blog/load_blogs/${param}/`, {
         method: "DELETE",
         headers: {
             "Content-Type" : "application/json",
@@ -201,7 +200,7 @@ const handleAddRating = (event) => {
         user: userId,
     };
     console.log("rate---> ",ratingData)
-    fetch("http://127.0.0.1:8000/rating/", {
+    fetch("https://my-book-iopa.onrender.com/blog/rating/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
